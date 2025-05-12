@@ -1,4 +1,4 @@
-# 向量空间模型的温和介绍
+# 向量空间模型的入门指南
 
 > 原文：<https://machinelearningmastery.com/a-gentle-introduction-to-vector-space-models/>
 
@@ -47,10 +47,9 @@ $
 
 两条线段之间的角度可以用余弦公式计算:
 
-$
-\ cos \ theta = \ frac { a \ CDO b } { \ lvrt a \ servername _ 2 \ lvrt b \ servername _ 2 } { \ t1 }美元
+$$\cos \theta = \frac{a \cdot b}{||a||||b||}$$
 
-其中$ a \\ cdot b $是向量点积，而$ \ lVert a \ rVert _ 2 $是向量$a$的 L2 范数。这个公式来自于把点积看作向量$a$到向量$b$所指方向的投影。余弦的性质告诉我们，当角度从 0 度增加到 90 度时，余弦从 1 度减少到 0 度。有时我们称$1-\cos\theta$为**余弦距离**，因为当两个向量彼此远离时，余弦距离从 0 到 1。这是我们将在向量空间模型中利用的一个重要特性。
+其中$ a \cdot b $是向量点积，而$|a|_2$是向量$a$的 L2 范数。这个公式来自于把点积看作向量$a$到向量$b$所指方向的投影。余弦的性质告诉我们，当角度从 0 度增加到 90 度时，余弦从 1 度减少到 0 度。有时我们称$1-\cos\theta$为**余弦距离**，因为当两个向量彼此远离时，余弦距离从 0 到 1。这是我们将在向量空间模型中利用的一个重要特性。
 
 ## 使用向量空间模型进行相似性分析
 
@@ -103,9 +102,9 @@ print(df_nonagg)
 [174 rows x 7 columns]
 ```
 
-在上面，我们获得了 2010 年每个国家的一些经济指标。功能`wb.download()`将从世界银行下载数据，并返回一个熊猫数据帧。同样`wb.get_countries()`会得到世界银行认定的国家和地区名称，我们会用这个来过滤掉“东亚”“世界”等非国家聚合。Pandas 允许通过布尔索引过滤行，布尔索引`df["country"].isin(non_aggregates)`给出了布尔向量，表示哪一行在`non_aggregates`列表中，基于此，`df[df["country"].isin(non_aggregates)]`只选择那些行。由于各种原因，并非所有国家都有所有数据。因此，我们使用`dropna()`来删除那些丢失的数据。在实践中，我们可能希望应用一些插补技术，而不仅仅是去除它们。但是作为一个例子，我们继续剩下的 174 个数据点。
+在上面，我们获得了 2010 年每个国家的一些经济指标。功能`wb.download()`将从世界银行下载数据，并返回一个Pandas DataFrame。同样`wb.get_countries()`会得到世界银行认定的国家和地区名称，我们会用这个来过滤掉“东亚”“世界”等非国家聚合。Pandas 允许通过布尔索引过滤行，布尔索引`df["country"].isin(non_aggregates)`给出了布尔向量，表示哪一行在`non_aggregates`列表中，基于此，`df[df["country"].isin(non_aggregates)]`只选择那些行。由于各种原因，并非所有国家都有所有数据。因此，我们使用`dropna()`来删除那些丢失的数据。在实践中，我们可能希望应用一些插补技术，而不仅仅是去除它们。但是作为一个例子，我们继续剩下的 174 个数据点。
 
-为了更好地说明这个想法，而不是隐藏熊猫或 numpy 函数中的实际操作，我们首先提取每个国家的数据作为向量:
+为了更好地说明这个想法，而不是隐藏Pandas或 numpy 函数中的实际操作，我们首先提取每个国家的数据作为向量:
 
 ```py
 ...
@@ -204,8 +203,7 @@ print(df_nonagg[df_nonagg.country.isin(["Mexico", "Colombia", "Australia"])])
 
 从这张表中，我们看到澳大利亚和墨西哥的指标在数量上非常接近。然而，如果你比较同一个国家内每个指标的比率，哥伦比亚比澳大利亚更匹配。事实上，从余弦公式中，我们可以看到
 
-$
-\ cos \ theta = \ frac { a \ CDO b } { \ lvrt a \ servername _ 2 \ lvrt b \ servername _ 2 } = \ frac { a } { \ lvrt a \ servername _ 2 } \ CDO \ frac { b } { \ lvrt b \ servername _ 2 } { \ t1 }美元
+$$\cos \theta = \frac{a \cdot b}{||a||||b||}$$
 
 这意味着两个向量之间角度的余弦值是对应向量归一化为长度 1 后的点积。因此，余弦距离实际上是在计算距离之前对数据应用缩放器。
 
@@ -286,8 +284,8 @@ print(df_nonagg[df_nonagg.country.isin(["Mexico", "Colombia", "Australia"])])
 ### 软件
 
 *   [世界银行公开数据](https://data.worldbank.org/)
-*   [熊猫数据阅读器](https://pandas-datareader.readthedocs.io/)
-*   基因体
+*   [Pandas DataReader](https://pandas-datareader.readthedocs.io/)
+*   [Gensim](https://radimrehurek.com/gensim/#)
 
 ### 文章
 
@@ -302,4 +300,4 @@ print(df_nonagg[df_nonagg.country.isin(["Mexico", "Colombia", "Australia"])])
 *   如何构建向量空间模型
 *   如何计算向量空间模型中两个向量之间的余弦相似度以及余弦距离
 *   如何解释余弦距离和其他距离度量如欧氏距离之间的差异
-*   向量空间模型有什么用*
+*   向量空间模型有什么用
